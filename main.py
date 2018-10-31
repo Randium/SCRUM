@@ -68,7 +68,8 @@ def update_progress(input_file,progress_file):
     save(progress,progress_file)
 
 def main(input_file,progress_file,output_file):
-    update_progress(input_file,progress_file)
+    if input_file != '':
+        update_progress(input_file,progress_file)
 
     category_1 = []
     category_2 = []
@@ -84,8 +85,13 @@ def main(input_file,progress_file,output_file):
             if row[2] not in category_3:
                 category_3.append(row[2])
     
-    priorities = [[0,row[0],row[1],row[2],row[3],row[4]] for row in progress]
-    priorities[0][0] = 31
+    try:
+        priorities = [[0,row[0],row[1],row[2],row[3],row[4]] for row in progress]
+        priorities[0][0] = 31
+    except Exception:
+        print('Oops! It seems like you forgot to fill in some columns!')
+        input('Press ENTER to exit. ')
+        return
 
     print('=======================================')
     for category in category_1:
@@ -110,15 +116,14 @@ def main(input_file,progress_file,output_file):
 
     print('=======================================')
     print('Very well! You can find your results in {}!'.format(output_file))
+    input('Press ENTER to exit this program.')
     priorities.sort(reverse=True)
     save(priorities,output_file)
-    
-    
 
 
 if __name__ == "__main__":
-    input_file = 'input.csv'
+    input_file = ''
     output_file = 'output.csv'
-    progress_file = 'progress.csv'
+    progress_file = 'input.csv'
 
     main(input_file,progress_file,output_file)
